@@ -45,13 +45,13 @@ def getEmotion(id):
     emotion = -1
 
     # emotion{0:strong_happy, 1:week_happy, 2:week_sad, 3:strong_sad}
-    if energy >= 0.75 and valence >= 0.6:
+    if energy >= 0.65 and valence >= 0.5:
         emotion = 0
-    elif energy >= 0.55 and valence < 0.6:
+    elif energy >= 0.55 and valence < 0.5:
         emotion = 3
-    elif energy < 0.75 and valence >= 0.6:
+    elif energy < 0.65 and valence >= 0.5:
         emotion = 1
-    elif energy < 0.55 and valence < 0.6:
+    elif energy < 0.55 and valence < 0.5:
         emotion = 2
 
     return emotion
@@ -83,10 +83,10 @@ def getGenre(id, search):
     client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-    spotify_date = sp.track(track_id=id, market='KR')['album']['release_date']
+    spotify_date = sp.track(track_id=id)['album']['release_date']
     spotify_date = spotify_date.replace('-', '')
 
-    album_name = sp.track(track_id=id, market='KR')['album']['name']
+    album_name = sp.track(track_id=id)['album']['name']
     words = ""
     for word in album_name:
         if word != ' ':
@@ -137,7 +137,7 @@ def getGenre(id, search):
             print("no album")
             break
 
-    track_name = sp.track(track_id=id, market='KR')['name']
+    track_name = sp.track(track_id=id)['name']
     words = ""
     for word in track_name:
         if word != ' ':
@@ -242,7 +242,7 @@ def getCstInfo(request):
         client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
         sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-        songData['songName'] = sp.track(track_id=received['song5_id'], market='KR')['name']
+        songData['songName'] = sp.track(track_id=received['song5_id'])['name']
 
         # temp = getGenre(received['song3_id'], received['song3_search'])
         # feature = sp.audio_features(tracks=[received['song3_id']])[0]["valence"]
